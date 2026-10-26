@@ -1,0 +1,13 @@
+{
+  "name": "modelo-formulario-sales-fuel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Molde de formulário de qualificação de leads ligado à Bolten",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

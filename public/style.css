@@ -1,0 +1,405 @@
+/* ===== Cores padrão — no molde, as cores de cada cliente vêm do config.js ===== */
+:root {
+  --cor-principal: #084bfd;
+  --cor-principal-hover: #0639c4;
+  --cor-destaque: #02dceb;
+  --cor-fundo: #f3f7ff;
+  --cor-cartao: #ffffff;
+  --cor-texto: #0b1a3a;
+  --cor-texto-secundario: #5b6b8c;
+  --cor-borda: #d5def0;
+  --cor-selecionada-fundo: #eef3ff;
+  --cor-erro: #dc2626;
+
+  /* Fontes (Google Fonts, carregadas no index.html) */
+  --fonte-titulo: "Sora", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --fonte-texto: "Inter", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-texto);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Brilho suave azul e ciano no fundo */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--cor-principal) 16%, transparent), transparent 55%),
+    radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--cor-destaque) 20%, transparent), transparent 55%);
+}
+
+h1,
+h2 {
+  font-family: var(--fonte-titulo);
+  letter-spacing: -0.02em;
+}
+
+/* ===== Barra de progresso ===== */
+.progresso {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--cor-borda);
+  z-index: 1;
+}
+
+.progresso-barra {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--cor-principal), var(--cor-destaque));
+  border-radius: 0 4px 4px 0;
+  transition: width 0.4s ease;
+}
+
+/* ===== Layout ===== */
+main {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.conteudo {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto 0;
+}
+
+/* Cabeçalho da marca: logo + nome */
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+}
+
+.marca-nome {
+  font-family: var(--fonte-titulo);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--cor-texto);
+}
+
+/* Cartão onde ficam as perguntas */
+.tela {
+  width: 100%;
+  background: var(--cor-cartao);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--cor-texto) 8%, transparent);
+  padding: 32px 20px;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tela.oculta {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+/* ===== Textos ===== */
+.contador {
+  color: var(--cor-principal);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-size: 1.9rem;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+
+h2 {
+  font-size: 1.45rem;
+  line-height: 1.35;
+  margin-bottom: 24px;
+}
+
+.subtitulo {
+  color: var(--cor-texto-secundario);
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+}
+
+/* Aviso abaixo do título nas perguntas de várias respostas */
+.aviso {
+  margin: -16px 0 20px;
+  font-size: 0.95rem;
+  color: var(--cor-texto-secundario);
+}
+
+/* Selos da abertura */
+.selos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--cor-principal);
+  background: var(--cor-selecionada-fundo);
+  border-radius: 999px;
+}
+
+.selo::before {
+  content: "✓";
+  font-weight: 700;
+}
+
+/* Tela final com ✓ animado */
+.final {
+  text-align: center;
+}
+
+.final h2 {
+  margin-bottom: 0;
+}
+
+.check {
+  display: block;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+}
+
+.check-circulo {
+  fill: none;
+  stroke: url(#check-gradiente);
+  stroke-width: 4;
+  stroke-dasharray: 214;
+  stroke-dashoffset: 214;
+  animation: desenhar 0.6s ease-out forwards;
+}
+
+.check-traco {
+  fill: none;
+  stroke: var(--cor-principal);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: desenhar 0.4s ease-out 0.5s forwards;
+}
+
+@keyframes desenhar {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ===== Campo ===== */
+.campo {
+  width: 100%;
+  padding: 16px 18px;
+  font-size: 1.2rem;
+  font-family: inherit;
+  color: var(--cor-texto);
+  background: var(--cor-cartao);
+  border: 2px solid var(--cor-borda);
+  border-radius: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campo:focus {
+  border-color: var(--cor-principal);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--cor-principal) 12%, transparent);
+}
+
+.campo.invalido {
+  border-color: var(--cor-erro);
+  box-shadow: none;
+}
+
+.erro {
+  color: var(--cor-erro);
+  font-size: 1rem;
+  min-height: 1.5em;
+  margin-top: 8px;
+}
+
+/* ===== Opções (escolha e múltipla) ===== */
+.opcoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 18px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  text-align: left;
+  color: var(--cor-texto);
+  background: var(--cor-cartao);
+  border: 2px solid var(--cor-borda);
+  border-radius: 14px;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease;
+}
+
+.opcao:active {
+  transform: scale(0.98);
+}
+
+/* Navegação pelo teclado (Tab) */
+.opcao:focus-visible {
+  border-color: var(--cor-principal);
+}
+
+.opcao.selecionada {
+  border-color: var(--cor-principal);
+  background: var(--cor-selecionada-fundo);
+  color: var(--cor-principal);
+  font-weight: 600;
+}
+
+/* Quadradinho com ✓ nas perguntas de várias respostas */
+.opcao.marcavel::before {
+  content: "";
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--cor-borda);
+  border-radius: 6px;
+  background: var(--cor-cartao);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.opcao.marcavel.selecionada::before {
+  content: "✓";
+  background: var(--cor-principal);
+  border-color: var(--cor-principal);
+}
+
+/* ===== Botões ===== */
+.botao {
+  width: 100%;
+  margin-top: 16px;
+  padding: 18px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #ffffff;
+  background: var(--cor-principal);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--cor-principal) 25%, transparent);
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.botao:focus {
+  outline: none;
+}
+
+.botao:active {
+  transform: scale(0.98);
+}
+
+/* Mesmo formato do "Continuar", mas com fundo azul claro */
+.voltar {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 18px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--cor-principal);
+  background: var(--cor-selecionada-fundo);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.voltar:focus {
+  outline: none;
+}
+
+.voltar:active {
+  transform: scale(0.98);
+}
+
+/* Efeitos de passar o mouse: só em aparelhos com mouse (no celular ficariam "presos") */
+@media (hover: hover) {
+  .opcao:hover {
+    border-color: var(--cor-principal);
+  }
+
+  .botao:hover {
+    background: var(--cor-principal-hover);
+  }
+
+  .voltar:hover {
+    background: color-mix(in srgb, var(--cor-principal) 14%, var(--cor-cartao));
+  }
+}
+
+/* ===== Telas maiores ===== */
+@media (min-width: 600px) {
+  .tela {
+    padding: 44px 40px;
+  }
+
+  .logo {
+    height: 48px;
+  }
+
+  h1 {
+    font-size: 2.3rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+}
