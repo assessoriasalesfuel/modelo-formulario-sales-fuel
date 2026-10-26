@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Molde: os {{...}} são preenchidos pelo servidor com os dados do config.js -->
-  <title>{{EMPRESA}}</title>
+  <title>{{TITULO}}</title>
   <link rel="icon" href="favicon.ico" sizes="48x48">
   <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -22,8 +22,8 @@
 
   <main>
     <div class="conteudo">
-      <header class="marca">
-        <img class="logo" src="{{LOGO}}" alt="">
+      <header class="{{MARCA}}">
+        {{LOGO}}
         <span class="marca-nome">{{EMPRESA}}</span>
       </header>
       <div class="tela" id="tela"></div>

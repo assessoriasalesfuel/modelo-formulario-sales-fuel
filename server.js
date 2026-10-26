@@ -36,6 +36,9 @@ for (const [id, opcoes] of Object.entries(config.qualificacao?.desqualificaSe ||
     }
   }
 }
+if (config.whatsapp && !/^55\d{10,11}$/.test(String(config.whatsapp.numero))) {
+  console.warn(`Aviso (config.js): o número do WhatsApp "${config.whatsapp.numero}" deve ter 55 + DDD + número, só números.`);
+}
 
 // ----- Página -----
 // O index.html é um molde: o servidor coloca nele o nome, a logo, as cores, o pixel e as configurações.
@@ -71,14 +74,18 @@ function montarPagina() {
     perguntas: config.perguntas,
     contato: config.contato,
     pixelMeta: config.pixelMeta,
+    whatsapp: config.whatsapp || null,
     temQualificacao: Boolean(config.qualificacao),
   };
 
   // Funções na troca para que "$" nos textos (ex.: "R$") não tenha efeito especial
   return fs
     .readFileSync(path.join(__dirname, "public", "index.html"), "utf8")
+    .replace("{{TITULO}}", () => escaparHtml(config.tituloAba || config.empresa))
     .replaceAll("{{EMPRESA}}", () => escaparHtml(config.empresa))
-    .replaceAll("{{LOGO}}", () => escaparHtml(config.logo))
+    // Sem logo: só o nome no topo, centralizado e maior
+    .replace("{{MARCA}}", () => (config.logo ? "marca" : "marca marca-sem-logo"))
+    .replace("{{LOGO}}", () => (config.logo ? `<img class="logo" src="${escaparHtml(config.logo)}" alt="">` : ""))
     .replace("{{CORES}}", () => `<style>:root { ${cores} }</style>`)
     .replace("{{PIXEL}}", () => pixel)
     .replace("{{CONFIG}}", () => `<script>window.CONFIG = ${JSON.stringify(paraPagina).replace(/</g, "\\u003c")};</script>`);

@@ -6,10 +6,13 @@
 // =====================================================================
 
 module.exports = {
-  // Nome da empresa (aparece no topo, ao lado da logo, e na aba do navegador)
+  // Nome da empresa (aparece no topo, ao lado da logo)
   empresa: "Assessoria Sales Fuel",
 
-  // Arquivo da logo, dentro da pasta public/
+  // Título da aba do navegador. Para usar o nome da empresa, use:  tituloAba: null,
+  tituloAba: null,
+
+  // Arquivo da logo, dentro da pasta public/. Sem logo (só o nome no topo), use:  logo: null,
   logo: "logo.png",
 
   // Cores do formulário (use as cores da logo do cliente)
@@ -126,4 +129,15 @@ module.exports = {
 
   // Código do pixel da Meta. Para não ter pixel, use:  pixelMeta: null,
   pixelMeta: "1334903205155707",
+
+  // Botão de WhatsApp na tela final. Com qualificação, só o qualificado vê o botão.
+  // Ao clicar, o pixel registra o evento "Contact" (se houver pixel).
+  // Para ter o botão, use:
+  //   whatsapp: {
+  //     numero: "5511999999999", // com 55 e DDD, só números
+  //     mensagem: "Olá! Acabei de preencher o formulário.", // texto que já vem escrito na conversa
+  //     textoBotao: "Falar no WhatsApp →",
+  //   },
+  // Para não ter botão, use:  whatsapp: null,
+  whatsapp: null,
 };

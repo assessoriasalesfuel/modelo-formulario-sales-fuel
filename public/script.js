@@ -4,7 +4,7 @@
 // (o servidor coloca essas configurações na página como window.CONFIG).
 // =====================================================================
 
-const { perguntas: PERGUNTAS, textos: TEXTOS, contato: CONTATO, pixelMeta: PIXEL_ID } = window.CONFIG;
+const { perguntas: PERGUNTAS, textos: TEXTOS, contato: CONTATO, pixelMeta: PIXEL_ID, whatsapp: WHATSAPP } = window.CONFIG;
 
 const tela = document.getElementById("tela");
 const barra = document.getElementById("progresso-barra");
@@ -298,6 +298,16 @@ async function enviar() {
 function mostrarFinal(qualificado) {
   const texto =
     qualificado === null ? TEXTOS.final : qualificado ? TEXTOS.finalQualificado : TEXTOS.finalNaoQualificado;
+
+  // Botão de WhatsApp: para todos sem qualificação; com qualificação, só para o qualificado
+  const linkWhatsapp =
+    WHATSAPP && qualificado !== false
+      ? `https://wa.me/${String(WHATSAPP.numero).replace(/\D/g, "")}?text=${encodeURIComponent(WHATSAPP.mensagem || "")}`
+      : "";
+  const botaoWhatsapp = linkWhatsapp
+    ? `<a class="botao" id="whatsapp" href="${escapar(linkWhatsapp)}" target="_blank" rel="noopener">${escapar(WHATSAPP.textoBotao)}</a>`
+    : "";
+
   mostrar(
     `<div class="final">
        <svg class="check" viewBox="0 0 72 72" aria-hidden="true">
@@ -311,7 +321,12 @@ function mostrarFinal(qualificado) {
          <path class="check-traco" d="M22 37 l9 9 l19 -20" />
        </svg>
        <h2>${escapar(texto)}</h2>
-     </div>`
+       ${botaoWhatsapp}
+     </div>`,
+    () => {
+      const botao = document.getElementById("whatsapp");
+      if (botao) botao.addEventListener("click", () => pixel("track", "Contact"));
+    }
   );
 }
 

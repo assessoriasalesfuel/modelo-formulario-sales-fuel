@@ -107,6 +107,27 @@ main {
   color: var(--cor-texto);
 }
 
+/* Sem logo (logo: null): só o nome, maior, com um traço fino da cor da marca embaixo */
+.marca-sem-logo {
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.marca-sem-logo .marca-nome {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.marca-sem-logo::after {
+  content: "";
+  width: 40px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cor-principal), var(--cor-destaque));
+}
+
 /* Cartão onde ficam as perguntas */
 .tela {
   width: 100%;
@@ -187,6 +208,14 @@ h2 {
 
 .final h2 {
   margin-bottom: 0;
+}
+
+/* Botão de WhatsApp (é um link, com a aparência do botão "Continuar") */
+.final .botao {
+  display: block;
+  margin-top: 28px;
+  text-decoration: none;
+  text-align: center;
 }
 
 .check {

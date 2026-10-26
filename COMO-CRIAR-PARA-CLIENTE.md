@@ -18,14 +18,35 @@ Tudo do cliente fica no arquivo **`config.js`** (dá para editar direto no GitHu
 
 | Campo | O que colocar |
 |---|---|
-| `empresa` | Nome do cliente (aparece no topo e na aba do navegador) |
-| `logo` | Nome do arquivo da logo dentro de `public/` (ex.: `logo.png`) |
+| `empresa` | Nome do cliente (aparece no topo e, se não houver `tituloAba`, na aba do navegador) |
+| `tituloAba` | Título da aba do navegador (ex.: `Atendimento jurídico \| Dra. Fulana`). Para usar o nome da empresa: `tituloAba: null` |
+| `logo` | Nome do arquivo da logo dentro de `public/` (ex.: `logo.png`). Sem logo: `logo: null` (aparece só o nome, centralizado e maior) |
 | `cores` | Cores da marca do cliente (principal, destaque, fundo…) |
 | `textos` | Título, subtítulo, selos, botões e mensagens finais |
 | `perguntas` | As perguntas, na ordem. Quantas quiser |
 | `contato` | Qual pergunta vai para **Nome**, **Telefone** e **E-mail** do contato na Bolten |
 | `qualificacao` | As respostas que tornam o lead **não qualificado**. Sem qualificação: `qualificacao: null` |
 | `pixelMeta` | Código do pixel do cliente. Sem pixel: `pixelMeta: null` |
+| `whatsapp` | Botão de WhatsApp na tela final (veja abaixo). Sem botão: `whatsapp: null` |
+
+### Botão de WhatsApp na tela final
+
+Para mostrar um botão que abre uma conversa no WhatsApp do cliente, preencha:
+
+```js
+whatsapp: {
+  numero: "5511999999999", // 55 + DDD + número, só números
+  mensagem: "Olá! Acabei de preencher o formulário.", // texto que já vem escrito na conversa
+  textoBotao: "Falar no WhatsApp →",
+},
+```
+
+Quem vê o botão:
+- **Com qualificação:** só o lead **qualificado**. O não qualificado vê só a mensagem final, sem botão.
+- **Sem qualificação** (`qualificacao: null`): todos.
+- **`whatsapp: null`:** ninguém (não aparece botão).
+
+Ao clicar no botão, o pixel registra o evento padrão **`Contact`** (se houver pixel).
 
 Cuidados:
 - Nas regras de `qualificacao`, escreva as opções **exatamente** como estão em `perguntas` (mesmas letras, acentos e espaços).
@@ -44,6 +65,7 @@ Substitua estes arquivos na pasta `public/` (mesmos nomes):
 | `apple-touch-icon.png` | Ícone ao salvar na tela inicial (iPhone) | 180 × 180 px, **fundo branco** |
 
 Dica: peça ao Claude Code "gere o favicon e os ícones a partir da logo".
+Cliente sem logo (`logo: null`): o `logo.png` não é usado. Peça "gere o favicon e os ícones com as iniciais do cliente em branco sobre a cor principal".
 
 ---
 
@@ -129,8 +151,9 @@ BOLTEN_ETAPA_DESQUALIFICADO=coluna dos não qualificados (ex.: Não qualificado)
 1. Abra o endereço do cliente e preencha com o nome **TESTE - apagar**:
    - um lead qualificado e um não qualificado (se houver qualificação).
 2. Na Bolten do cliente, confira a coluna de cada um, o contato e a Observação.
-3. Se houver pixel: no **Gerenciador de Eventos** da Meta, aba **Testar eventos**, confira `PageView`, `IniciouFormulario`, `Lead` e `LeadQualificado`.
-4. Apague os leads de teste na Bolten.
+3. Se houver botão de WhatsApp: confira que ele aparece para quem deve (veja o passo 2), clique e veja se abre a conversa com o número e a mensagem certos.
+4. Se houver pixel: no **Gerenciador de Eventos** da Meta, aba **Testar eventos**, confira `PageView`, `IniciouFormulario`, `Lead` e `LeadQualificado` (e `Contact`, se houver botão de WhatsApp).
+5. Apague os leads de teste na Bolten.
 
 Pronto: o formulário do cliente está no ar. 🎉
 
